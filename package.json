@@ -1,0 +1,27 @@
+{
+    "name": "backend-coursework",
+    "author": "Suleman",
+    "private": false,
+    "version": "0.0.1",
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "mustache": "^4.2.0",
+        "mustache-express": "^1.3.2"
+    },
+    "description": "This is the node.js and express.js file",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/WhiteBookmark/C.git"
+    },
+    "keywords": [],
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/WhiteBookmark/C/issues"
+    },
+    "homepage": "https://github.com/WhiteBookmark/C#readme"
+}
