@@ -83,56 +83,14 @@ async function run() {
 		// POST /orders – create a new order
 		app.post('/orders', async (req, res) => {
 			try {
-				const order = req.body;
+				const order = req.body;			
 
-				// Validate required fields
-				if (!order.firstName || !order.lastName || !order.phone || !order.method || !Array.isArray(order.lessons) || order.lessons.length === 0) {
-					return res.status(400).json({ error: 'Missing required fields.' });
-				}
+				// For each lesson in the order, update space, and enrich the order item
+				console.log(order);
 
-				const nameRegex = /^[A-Za-z]+$/;
-				const phoneRegex = /^[0-9]{7,15}$/;
-				const zipRegex = /^\d{5}$/;
-
-				if (!nameRegex.test(order.firstName.trim())) {
-					return res.status(400).json({ error: 'Invalid first name.' });
-				}
-				if (!nameRegex.test(order.lastName.trim())) {
-					return res.status(400).json({ error: 'Invalid last name.' });
-				}
-				if (!phoneRegex.test(order.phone)) {
-					return res.status(400).json({ error: 'Invalid phone number.' });
-				}
-				if (order.method === 'Home Delivery') {
-					if (!order.address || order.address.trim().length === 0) {
-						return res.status(400).json({ error: 'Address is required.' });
-					}
-					if (!zipRegex.test(String(order.zip))) {
-						return res.status(400).json({ error: 'Invalid ZIP code.' });
-					}
-				}
-
-				// For each lesson in the order, check for availability, update space, and enrich the order item
 				for (const item of order.lessons) {
-					// Expect the client to send an "id" field for the lesson
-					const lesson = await lessonsCollection.findOne({
-						_id: new ObjectId(item.id),
-					});
-					if (!lesson || lesson.Space < item.quantity) {
-						return res.status(400).json({
-							error: `Not enough space in ${lesson?.LessonName || 'lesson'}.`,
-						});
-					}
-
-					// Decrement the available space in the lessons collection
-					await lessonsCollection.updateOne({ _id: new ObjectId(item.id) }, { $inc: { Space: -item.quantity } });
-
-					// Enrich the order item with the lesson's _id and name
-					item.lessonId = lesson._id;
-					item.lessonName = lesson.LessonName;
-
-					// Remove the original "id" field to avoid confusion
-					delete item.id;
+					// // Decrement the available space in the lessons collection
+					const updationResult = await lessonsCollection.updateOne({ id: item.id }, { $inc: { space: -item.space } });
 				}
 
 				// Insert the order into the orders collection
