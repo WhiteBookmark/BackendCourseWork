@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // 1. Middleware
 app.use(express.json());
@@ -83,12 +83,18 @@ async function run() {
 		// POST /orders – create a new order
 		app.post('/orders', async (req, res) => {
 			try {
-				const order = req.body;			
+				const order = req.body;
+
+				// Validate required fields
+				if (!order.name || !order.phone) {
+					return res.status(400).json({ error: 'Missing required fields.' });
+				}
 
 				// For each lesson in the order, update space, and enrich the order item
+
 				for (const item of order.lessons) {
-					// Decrement the available space in the lessons collection
-					const updationResult = await lessonsCollection.updateOne({ id: item.id }, { $inc: { space: -item.space } });
+					// // Decrement the available space in the lessons collection
+					await lessonsCollection.updateOne({ id: item.id }, { $inc: { space: -item.space } });
 				}
 
 				// Insert the order into the orders collection
