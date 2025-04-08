@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const app = express();
 const port = process.env.PORT || 3000;
 
-// 1. Middleware
+// Middleware
 app.use(express.json());
 
 // Manual CORS Middleware
@@ -25,14 +25,15 @@ app.use((req, res, next) => {
 	next();
 });
 
-// 2. Serve static files (lesson images) from "images" folder
+// Serve static files (lesson images) from "images" folder
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/images', (req, res) => {
 	res.status(404).send('Image not found. Please check the URL.');
 });
-// 3. MongoDB connection
+
+// MongoDB connection
 const uri = process.env.MONGODB_URI || 'mongodb+srv://spacesaverofcomputer:spacesaverofcomputer@cluster0.rpgnn3v.mongodb.net';
 const client = new MongoClient(uri);
 
@@ -112,8 +113,9 @@ async function run() {
 		});
 
 		// GET /search - Full text search
+
 		app.get('/search', async (req, res) => {
-			const query = (req.query.q || '').trim();
+			const query = (req.query.search_query || '').trim();
 
 			try {
 				// Return all lessons if search query is empty
