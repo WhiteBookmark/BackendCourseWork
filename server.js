@@ -93,7 +93,7 @@ async function run() {
 			}
 		});
 
-		// Update any attribute of the lesson collection
+		// PUT /lessons Update any attribute of the lesson collection
 		app.put('/lessons', async (req, res) => {
 			try {
 				const lesson = req.body;
