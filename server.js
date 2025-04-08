@@ -50,11 +50,9 @@ async function run() {
 
 		app.get('/', (req, res) => {
 			res.send(`
-    <h1>Welcome to the Backend Server</h1>
-    <ul>
-      <li><a href="/orders">Go to Orders</a></li>
-      <li><a href="/lessons">Go to Lessons</a></li>
-    </ul>
+      <h1>Backend of Vue.js Coursework</h1>
+      <a href="/orders">Click here to go to Orders</a>
+      <a href="/lessons">Click here to go to Lessons</a>
   `);
 		});
 
@@ -113,7 +111,7 @@ async function run() {
 			}
 		});
 
-		// GET /search - Full text search on LessonName, Location, Price, Space
+		// GET /search - Full text search
 		app.get('/search', async (req, res) => {
 			const query = (req.query.q || '').trim();
 
@@ -129,12 +127,12 @@ async function run() {
 				const results = await lessonsCollection
 					.find({
 						$or: [
-							{ LessonName: regex },
-							{ Location: regex },
+							{ topic: regex },
+							{ location: regex },
 							{
 								$expr: {
 									$regexMatch: {
-										input: { $toString: '$Price' },
+										input: { $toString: '$price' },
 										regex: query,
 										options: 'i',
 									},
@@ -143,7 +141,7 @@ async function run() {
 							{
 								$expr: {
 									$regexMatch: {
-										input: { $toString: '$Space' },
+										input: { $toString: '$space' },
 										regex: query,
 										options: 'i',
 									},
