@@ -84,13 +84,6 @@ async function run() {
 		app.post('/orders', async (req, res) => {
 			try {
 				const order = req.body;
-
-				// For each lesson in the order, update space, and enrich the order item
-				for (const item of order.lessons) {
-					// Decrement the available space in the lessons collection
-					const updationResult = await lessonsCollection.updateOne({ id: item.id }, { $inc: { space: -item.space } });
-				}
-
 				// Insert the order into the orders collection
 				const result = await ordersCollection.insertOne(order);
 				res.status(201).json({ message: 'Order created', orderId: result.insertedId });
