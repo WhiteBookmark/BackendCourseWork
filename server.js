@@ -83,7 +83,7 @@ async function run() {
 		// POST /orders – create a new order
 		app.post('/orders', async (req, res) => {
 			try {
-				const order = req.body;			
+				const order = req.body;
 
 				// For each lesson in the order, update space, and enrich the order item
 				for (const item of order.lessons) {
@@ -100,24 +100,20 @@ async function run() {
 			}
 		});
 
-		// PUT /lessons/:id – update a lesson (optional for admin)
-		app.put('/lessons/:id', async (req, res) => {
+		// Update any attribute of the lesson collection
+		app.put('/lessons', async (req, res) => {
 			try {
-				const lessonId = req.params.id;
-				const updateData = req.body;
-				let updateQuery = {};
-				if (updateData.$inc) updateQuery.$inc = updateData.$inc;
-				if (updateData.$set) updateQuery.$set = updateData.$set;
-				if (!updateQuery.$set && !updateQuery.$inc) {
-					updateQuery.$set = updateData;
-				}
+				const lesson = req.body;
+				delete lesson._id;
 
-				const result = await lessonsCollection.updateOne({ _id: new ObjectId(lessonId) }, updateQuery);
+				const { id, ...updateFields } = lesson;
 
-				if (result.matchedCount === 0) {
-					return res.status(404).json({ error: 'Lesson not found' });
-				}
-				res.json({ message: 'Lesson updated' });
+				const result = await lessonsCollection.updateOne(
+					{ id: id }, // Match by numeric `id`
+					{ $set: updateFields }
+				);
+
+				res.json({ message: 'Lesson updated successfully' });
 			} catch (error) {
 				console.error('Error updating lesson:', error);
 				res.status(500).json({ error: 'Failed to update lesson' });
