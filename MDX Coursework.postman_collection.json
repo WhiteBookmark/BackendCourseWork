@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "ac54463d-282a-4563-a7e0-cd0e5948b7e2",
+		"name": "MDX Coursework",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27252001"
+	},
+	"item": [
+		{
+			"name": "Get All Lessons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://backendcoursework.onrender.com/lessons",
+					"protocol": "https",
+					"host": [
+						"backendcoursework",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"lessons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://backendcoursework.onrender.com/images/Archery.jpg",
+					"protocol": "https",
+					"host": [
+						"backendcoursework",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"images",
+						"Archery.jpg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search (Empty Query)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://backendcoursework.onrender.com/search?search_query",
+					"protocol": "https",
+					"host": [
+						"backendcoursework",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "search_query",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search (Sample Query)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://backendcoursework.onrender.com/search?search_query=",
+					"protocol": "https",
+					"host": [
+						"backendcoursework",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "search_query",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert a Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Simon\",\r\n    \"phone\": 14211,\r\n    \"lessons\": [\r\n        {\r\n            \"id\": 4,\r\n            \"space\": 1\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"space\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://backendcoursework.onrender.com/orders",
+					"protocol": "https",
+					"host": [
+						"backendcoursework",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update attribute of Lesson",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Simon\",\r\n    \"phone\": 14211,\r\n    \"lessons\": [\r\n        {\r\n            \"id\": 4,\r\n            \"space\": 1\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"space\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://backendcoursework.onrender.com/orders",
+					"protocol": "https",
+					"host": [
+						"backendcoursework",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
